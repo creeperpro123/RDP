@@ -1,21 +1,14 @@
 FROM ubuntu:20.04
 
-RUN apt-get update && \
-    apt-get install -y systemd && \
-    rm -rf /var/lib/apt/lists/* && \
-    systemctl mask \
-        tmp.mount \
-        etc-hostname.mount \
-        etc-hosts.mount \
-        etc-resolv.conf.mount \
-        display-manager.service \
-        getty.target \
-        graphical.target \
-        kmod-static-nodes.service \
-        systemd-logind.service \
-        systemd-remount-fs.service \
-        systemd-update-utmp.service && \
-    systemctl set-default multi-user.target
-VOLUME [ "/sys/fs/cgroup" ]
+RUN apt-get update && apt-get install -y \
+    curl \
+    sudo \
+    wget
 
-CMD ["/lib/systemd/systemd"]
+RUN echo 'root:17021983' | chpasswd
+
+RUN apt-get update && apt-get install -y systemd
+
+RUN systemctl daemon-reload
+
+ENTRYPOINT ["systemd", "&&", "/bin/bash"]
