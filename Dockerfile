@@ -4,7 +4,3 @@ RUN apt-get update && \
   systemd systemd-sysv dbus dbus-user-session
 COPY docker-entrypoint.sh /
 ENTRYPOINT ["/docker-entrypoint.sh"]
-EXPOSE 4200
-
-# Start shellinabox
-CMD ["/usr/bin/shellinaboxd", "-t", "-s", "/:LOGIN"]
